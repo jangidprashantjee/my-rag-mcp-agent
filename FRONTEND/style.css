@@ -9,9 +9,15 @@ body {
     padding: 2rem;
   }
   
-  h1 {
-    color: #f8f8f8;
+  .app-title {
+    font-size: 2rem;
+    color: #00ffc3;
+    text-align: center;
+    margin-top: 2rem;
+    letter-spacing: 1px;
+    font-family: 'Orbitron', sans-serif; 
   }
+  
   
   .container {
     max-width: 800px;
@@ -30,7 +36,7 @@ body {
     font-size: 1rem;
     border-radius: 8px;
     border: none;
-    background-color: #2a2a2a;
+    background-color: #3b3a3a;
     color: #fff;
     resize: vertical;
   }
@@ -54,7 +60,16 @@ body {
   button:hover {
     background-color: #caccce;
   }
-  
+  .prompt {
+    margin-top: 1rem;
+    color: #f0f0f0;
+    background-color: rgb(123, 127, 130);
+    padding: .7rem;
+    border-radius: 8px;
+    display: inline-block;         
+    max-width: 100%;               
+    word-wrap: break-word;
+  }
   .response {
     margin-top: .5rem;
     white-space: pre-wrap;

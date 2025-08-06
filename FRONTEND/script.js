@@ -1,24 +1,4 @@
-/*async function sendQuery() {
-    const textarea = document.getElementById("prompt");
-    const prompt = textarea.value;  
-    const responseDiv = document.getElementById("response");
-    responseDiv.textContent = "Thinking...";
-  
-    try {
-      const res = await fetch("http://localhost:5000/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
-  
-      const data = await res.json();
-      responseDiv.textContent = data.response || "No response";
-      textarea.value = "";
-    } catch (err) {
-      responseDiv.textContent = "Error: " + err.message;
-    }
-  }
-   */
+
   async function sendQuery() {
     const textarea = document.getElementById("prompt");
     const prompt = textarea.value.trim();

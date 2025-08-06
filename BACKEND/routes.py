@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from groq import call_llm
+from websearch import webRAG_LLama3
 
 llm_routes = Blueprint('llm_routes', __name__)
 
@@ -13,6 +14,6 @@ def ask():
     if not prompt:
         return jsonify({"error": "Query is required"}), 400
 
-    answer = call_llm(prompt)
-    #answer="Dummy call data"
+    #answer = call_llm(prompt) # Dummy call data
+    answer= webRAG_LLama3(prompt) #web RAG + Llama3 call
     return jsonify({"response": answer})
