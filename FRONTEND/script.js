@@ -34,3 +34,45 @@
     textarea.value = ""; 
   }
   
+  async function uploadDoc() {
+    const fileInput = document.getElementById("fileInput");
+    const fileNameSpan = document.getElementById("fileName");
+    if (fileInput.files.length > 0) {
+      const fileName = fileInput.files[0].name;
+      fileNameSpan.textContent = fileName;
+    } else {
+      fileNameSpan.textContent = "No file selected";
+    }
+    const file = fileInput.files[0];
+    if (!file) {
+      alert("No file selected");
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append("files", file);
+  
+    try {
+      const res = await fetch("http://localhost:5000/upload-docs", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        document.getElementById("fileName").textContent = fileInput.files[0].name;
+        document.getElementById("uploadStatus").textContent = "✔ Uploaded";
+      } else {
+        document.getElementById("fileName").textContent = "";
+        document.getElementById("uploadStatus").textContent = "✘ Upload failed";
+      }
+    } catch (err) {
+      alert("Error uploading document");
+      console.error(err);
+    }
+  
+    fileInput.value = ""; 
+  }  
+
+ 

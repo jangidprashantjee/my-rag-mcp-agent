@@ -17,7 +17,17 @@
     <div id="response" class="response"></div> 
     <textarea id="prompt" placeholder="Ask me anything..."></textarea>
     <div class="button-wrapper">
-        <button onclick="sendQuery()"><i class="fas fa-paper-plane"></i></button>
+        <div>        
+          <label for="fileInput" style="cursor: pointer;">
+          <i class="fas fa-plus"></i>
+          </label>
+          <input type="file" id="fileInput" class="upload"  onchange="uploadDoc()" />
+          <span id="fileName" style="font-size: 16px; color: rgb(123, 127, 130); margin-left: 15px;"></span>
+          <span id="uploadStatus" style="font-size: 16px; color: green; margin-left: 10px;"></span>
+        </div>
+        <div>
+        <button onclick="sendQuery()"><i class="fas fa-arrow-up fa-2x "></i></button>
+    </div>
     </div>
   </div>
   <footer>Powered by Groq + LLaMA | Local frontend</footer>

@@ -6,6 +6,8 @@ import requests
 from config import SERPAPI_KEY
 from groq import call_llm
 import json
+from docsearch import retrieve_docs
+
 
 serpapi_key = SERPAPI_KEY
 
@@ -41,6 +43,9 @@ Answer:"""
 
 def webRAG_LLama3(query):
     print("[🔍] Searching the web...")
+    doc_context = retrieve_docs(query)
+    if not doc_context:
+        doc_context= "No relevant info found in documents."
     urls = search_google(query)
     print(f"[📄] Found {len(urls)} links. Scraping top 2.")
     context = ""
@@ -48,10 +53,11 @@ def webRAG_LLama3(query):
         content = fetch_clean_text(url)
         if content:
             context += content + "\n"
-
-    if not context:
+    combined_context = doc_context + context
+    if not combined_context:
         return "No relevant info found on the web."
 
-    prompt = build_prompt(context, query)
-    print(prompt)
+    prompt = build_prompt(combined_context, query)
+    print("This is from document uploaded\n"+doc_context)
+    print("\n This is from web search \n"+context)
     return call_llm(prompt)
