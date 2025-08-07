@@ -12,8 +12,16 @@
 
 </head>
 <body>
-  <h1 class="app-title">🛰️ BLACKSITE</h1>
+  <h1 class="app-title"><div class="spinner">
+    <div class="processing-wave">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div> BLACKSITE</h1>
   <div class="container">
+    
     <div id="response" class="response"></div> 
     <textarea id="prompt" placeholder="Ask me anything..."></textarea>
     <div class="button-wrapper">
@@ -27,10 +35,10 @@
         </div>
         <div>
         <button onclick="sendQuery()"><i class="fas fa-arrow-up fa-2x "></i></button>
-    </div>
+        </div>
     </div>
   </div>
-  <footer>Powered by Groq + LLaMA | Local frontend</footer>
+  <footer>Powered by Groq + LLaMA </footer>
 
   <script src="script.js"></script>
 </body>
