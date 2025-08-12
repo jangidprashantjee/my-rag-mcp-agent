@@ -20,7 +20,7 @@
     interaction.appendChild(answerEl);
     responseDiv.appendChild(interaction);
     try {
-      const res = await fetch("http://localhost:5000/ask", {
+      const res = await fetch("https://my-rag-mcp-agent-1.onrender.com/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
@@ -55,7 +55,7 @@
     formData.append("files", file);
   
     try {
-      const res = await fetch("http://localhost:5000/upload-docs", {
+      const res = await fetch("https://my-rag-mcp-agent-1.onrender.com/upload-docs", {
         method: "POST",
         body: formData,
       });
