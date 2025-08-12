@@ -1,12 +1,9 @@
-import serpapi
-print(serpapi.__file__)
 from serpapi import GoogleSearch
 import trafilatura
 import requests
 from config import SERPAPI_KEY
-from groq import call_llm
 import json
-from docsearch import retrieve_docs
+
 
 
 serpapi_key = SERPAPI_KEY
@@ -42,22 +39,21 @@ Answer:"""
 
 
 def webRAG_LLama3(query):
-    print("[🔍] Searching the web...")
-    doc_context = retrieve_docs(query)
-    if not doc_context:
-        doc_context= "No relevant info found in documents."
+    print(" Searching the web...")
     urls = search_google(query)
-    print(f"[📄] Found {len(urls)} links. Scraping top 2.")
+    print(f"Found {len(urls)} links. Scraping top 2.")
     context = ""
-    for url in urls[:2]:
+    for url in urls[:5]:
         content = fetch_clean_text(url)
         if content:
             context += content + "\n"
-    combined_context = doc_context + context
-    if not combined_context:
-        return "No relevant info found on the web."
+    if not context:
+        return "No relevant info found on the web." 
+    return context
 
-    prompt = build_prompt(combined_context, query)
-    print("This is from document uploaded\n"+doc_context)
-    print("\n This is from web search \n"+context)
-    return call_llm(prompt)
+
+#
+#    prompt = build_prompt(combined_context, query)
+#    print("This is from document uploaded\n"+doc_context)
+#    print("\n This is from web search \n"+context)
+#    return call_llm(prompt)

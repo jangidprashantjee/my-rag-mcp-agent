@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify
 from groq import call_llm
 from websearch import webRAG_LLama3
+from intent_classifier import orchestrate_query 
 import os
 from docsearch import load_documents_from_folder, embed_and_save_docs
 from werkzeug.utils import secure_filename
 from flask_cors import cross_origin
+
 # Import necessary modules
 
 llm_routes = Blueprint('llm_routes', __name__)
@@ -20,7 +22,7 @@ def ask():
         return jsonify({"error": "Query is required"}), 400
 
     #answer = call_llm(prompt) # Dummy call data
-    answer= webRAG_LLama3(prompt) #web RAG + Llama3 call
+    answer= orchestrate_query(prompt) #web RAG + Llama3 call
     return jsonify({"response": answer})
 
 

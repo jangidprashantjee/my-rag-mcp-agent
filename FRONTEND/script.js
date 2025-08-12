@@ -3,7 +3,10 @@
     const textarea = document.getElementById("prompt");
     const prompt = textarea.value.trim();
     const responseDiv = document.getElementById("response");
-  
+    const loadingAnimation = document.getElementById('loading-animation');
+    if (loadingAnimation) {
+      loadingAnimation.style.display = 'none';
+    }
     if (!prompt) return; 
     const interaction = document.createElement("div");
     interaction.className = "interaction";
@@ -16,7 +19,6 @@
     answerEl.textContent = "Thinking...";
     interaction.appendChild(answerEl);
     responseDiv.appendChild(interaction);
-  
     try {
       const res = await fetch("http://localhost:5000/ask", {
         method: "POST",
