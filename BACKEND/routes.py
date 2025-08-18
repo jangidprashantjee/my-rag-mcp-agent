@@ -6,27 +6,27 @@ import os
 from docsearch import load_documents_from_folder, embed_and_save_docs
 from werkzeug.utils import secure_filename
 from flask_cors import cross_origin
-
+from flask import Response, stream_with_context, request, jsonify
+import time
 # Import necessary modules
 
 llm_routes = Blueprint('llm_routes', __name__)
+
 
 @llm_routes.route("/ask", methods=["POST"])
 def ask():
     data = request.get_json()
     prompt = data.get("prompt")
-    print("Headers:", request.headers)
-    print("Data raw:", request.data)
-    print("JSON:", request.get_json(force=True))
+
     if not prompt:
         return jsonify({"error": "Query is required"}), 400
 
-    #answer = call_llm(prompt) # Dummy call data
-    answer= orchestrate_query(prompt) #web RAG + Llama3 call
-    return jsonify({"response": answer})
+    def generate():
+        for chunk in orchestrate_query(prompt):
+            yield chunk
+            time.sleep(0.01)  
 
-
-
+    return Response(stream_with_context(generate()), mimetype="text/plain")
 #######################
 
 
