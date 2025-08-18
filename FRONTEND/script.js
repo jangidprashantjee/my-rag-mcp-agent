@@ -21,7 +21,7 @@
     interaction.appendChild(answerEl);
     responseDiv.appendChild(interaction);
     try {
-      const res = await fetch("http://127.0.0.1:5000/ask", {
+      const res = await fetch("https://my-rag-mcp-agent-1.onrender.com/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
