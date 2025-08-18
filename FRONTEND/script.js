@@ -3,31 +3,46 @@
     const textarea = document.getElementById("prompt");
     const prompt = textarea.value.trim();
     const responseDiv = document.getElementById("response");
-    const loadingAnimation = document.getElementById('loading-animation');
-    if (loadingAnimation) {
-      loadingAnimation.style.display = 'none';
-    }
+
     if (!prompt) return; 
     const interaction = document.createElement("div");
     interaction.className = "interaction";
     const promptEl = document.createElement("div");
     promptEl.className = "prompt";
-    promptEl.textContent = "You: " + prompt;
+    promptEl.textContent = "Ask: " + prompt;
     interaction.appendChild(promptEl);
     const answerEl = document.createElement("div");
     answerEl.className = "response";
-    answerEl.textContent = "Thinking...";
+    answerEl.innerHTML = `<div class="typing-dots">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>`;
     interaction.appendChild(answerEl);
     responseDiv.appendChild(interaction);
     try {
-      const res = await fetch("https://my-rag-mcp-agent-1.onrender.com/ask", {
+      const res = await fetch("http://127.0.0.1:5000/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
       });
-  
-      const data = await res.json();
-      answerEl.textContent = "AI: " + (data.response || "No response");
+
+      if (!res.body) {
+        throw new Error("ReadableStream not supported in this browser");
+      }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      answerEl.textContent = "";
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        answerEl.textContent = buffer; 
+      }
     } catch (err) {
       answerEl.textContent = "Error: " + err.message;
       answerEl.className = "error";
