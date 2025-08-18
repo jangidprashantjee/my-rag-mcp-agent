@@ -4,8 +4,8 @@ from flask_cors import CORS # only for development
 import os
 
 app = Flask(__name__)
-#CORS(app, origins=["https://sampledemo-n8e7.onrender.com"])
-CORS(app, origins=["*"])  # Allow all origins for development
+CORS(app, origins=["https://sampledemo-n8e7.onrender.com"])
+#CORS(app, origins=["*"])  # Allow all origins for development
 app.register_blueprint(llm_routes)
 
 if __name__ == "__main__":
