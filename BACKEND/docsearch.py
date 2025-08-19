@@ -4,9 +4,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyMuPDFLoader, TextLoader, Docx2txtLoader
 from config import EMBEDDING_MODEL, DB_PATH
 import os
+import faiss
+import numpy as np
 
-
-# Step 1: Load documents from a folder
 def load_documents_from_folder(paths):
     docs = []
     for path in paths:
@@ -25,6 +25,18 @@ def embed_and_save_docs(documents, persist_directory=DB_PATH):
     db = FAISS.from_documents(docs, embeddings)
     db.save_local(persist_directory)
     return True
+
+def is_query_doc_relevant_faiss(query, top_k=3):
+    faiss_index = faiss.read_index("vectorstore/db_faiss/index.faiss")
+    embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
+    query_vector = embeddings.embed_query(query)
+
+    query_vector = np.array([query_vector], dtype=np.float32)
+    D, I = faiss_index.search(query_vector, top_k) 
+    max_sim = max(D[0])
+
+    return max_sim
+
 
 def load_vector_db(persist_directory=DB_PATH):
     index_path = "vectorstore/db_faiss/index.faiss"

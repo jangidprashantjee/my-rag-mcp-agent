@@ -2,13 +2,22 @@ import json
 from groq import call_llm  
 from client import call_tool
 from websearch import webRAG_LLama3
-from docsearch import retrieve_docs
+from docsearch import retrieve_docs , is_query_doc_relevant_faiss
 from config import SYSTEM_PROMPT
 from datetime import datetime
+from config import SIMILARITY_THRESHOLD
+
+
 
 def classify_query(query: str):
-    prompt = f"{SYSTEM_PROMPT}\n\nUser query: {query}\nIntents:"
-    print("Classifying query intent with LLM...")
+    prompt = f"""
+    SYSTEM_PROMPT: {SYSTEM_PROMPT}
+
+    User query: "{query}"
+    
+    Intents:
+    """
+    print(" Classifying query intent with LLM...")
     response = call_llm(prompt)  
     try:
         intents = json.loads(response)
